@@ -1,0 +1,18 @@
+services:
+  gpt5-server:
+    build:
+      context: ./servers/gpt5-server
+      dockerfile: Dockerfile
+    container_name: gpt5-mcp-server
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    env_file:
+      - ./servers/.env
+    # MCP servers run on stdio - don't run as daemon service
+    profiles:
+      - manual
+    volumes:
+      # Optional: Mount logs directory if needed
+      - ./logs:/app/logs
+    stdin_open: true
+    tty: true
